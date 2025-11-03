@@ -19,3 +19,13 @@ app.post("/music", async (req, res) => {
 });
 
 
+app.get("/music", async (req, res) => {
+  try {
+    const music = await db.Music.findAll();
+    res.status(200).send(music);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: "Gagal mengambil data", error: err.message });
+  }
+});
+
