@@ -29,3 +29,21 @@ app.get("/music", async (req, res) => {
   }
 });
 
+app.put("/music/:id", async (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+
+  try {
+    const music = await db.Music.findByPk(id);
+    if (!music) {
+      return res.status(404).send({ message: "Music tidak tersedia" });
+    }
+
+    await music.update(data);
+    res.status(200).send({ message: "Music berhasil diupdate", music });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: "Gagal mengupdate data", error: err.message });
+  }
+});
+
